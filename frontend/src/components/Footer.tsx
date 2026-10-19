@@ -73,9 +73,6 @@ export const Footer: React.FC = () => {
 
           {/* Col 3: Services & Emergency */}
           <div>
-            <h4 className="text-sm font-bold text-white uppercase tracking-wider mb-4 border-l-2 border-red-500 pl-3">
-              {isKhmer ? 'សេវាសង្គ្រោះបន្ទាន់' : 'Emergency Services'}
-            </h4>
             <div className="space-y-3 text-sm text-white/70">
               <div className="p-3.5 bg-red-950/40 rounded-xl border border-red-900/50 space-y-1">
                 <div className="text-xs font-bold text-red-400 uppercase tracking-wide">
@@ -83,11 +80,6 @@ export const Footer: React.FC = () => {
                 </div>
                 <div className="text-base font-bold text-white">010-228-965</div>
               </div>
-              <p className="text-xs text-white/60">
-                {isKhmer
-                  ? 'ក្រុមសង្គ្រោះបន្ទាន់ត្រៀមខ្លួនជាស្រេច ២៤ម៉ោង ជារៀងរាល់ថ្ងៃ។'
-                  : 'Trauma specialists & ambulance response ready around the clock.'}
-              </p>
             </div>
           </div>
 

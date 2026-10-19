@@ -16,7 +16,7 @@ export const Header: React.FC = () => {
   const navItems = [
     { path: '/', label: 'Home', labelKm: 'ទំព័រដើម' },
     { path: '/about', label: 'About Us', labelKm: 'អំពីយើង' },
-    { path: '/departments', label: 'Departments', labelKm: 'នាយកដ្ឋាន' },
+    { path: '/departments', label: 'Departments', labelKm: 'ផ្នែកព្យាបាល' },
     { path: '/doctors', label: 'Doctors', labelKm: 'គ្រូពេទ្យ' },
     { path: '/news', label: 'News & Events', labelKm: 'ព័ត៌មាន' },
     { path: '/partnerships', label: 'Partnerships', labelKm: 'ដៃគូ' },

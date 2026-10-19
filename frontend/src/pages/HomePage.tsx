@@ -111,7 +111,7 @@ export const HomePage: React.FC = () => {
       <section className="relative overflow-hidden bg-slate-900">
         <div className="relative h-[520px] md:h-[620px]">
           <img
-            src="/image/cover.JPG"
+            src="/image/cover1.JPG"
             alt={isKhmer ? 'មន្ទីរពេទ្យហ្លួងម៉ែ' : 'Luang Mè Hospital'}
             className="absolute inset-0 w-full h-full object-cover"
           />
@@ -121,7 +121,7 @@ export const HomePage: React.FC = () => {
           <div className="relative z-10 flex h-full items-center justify-center px-4 sm:px-6 lg:px-8">
             <div className="text-center max-w-4xl mx-auto text-white">
               <h1 className="text-4xl sm:text-5xl md:text-7xl font-extrabold tracking-tight leading-none text-white drop-shadow-[0_8px_20px_rgba(0,0,0,0.25)]">
-                {isKhmer ? 'Healthy Living' : 'Healthy Living'}
+                The National Cancer Hospital
               </h1>
 
               <div className="mt-7 flex justify-center">

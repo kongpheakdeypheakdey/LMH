@@ -100,11 +100,11 @@ export const DepartmentsPage: React.FC = () => {
       {/* Header */}
       <div className="text-center space-y-3 max-w-2xl mx-auto">
         <h1 className="text-3xl sm:text-4xl font-extrabold text-[#0B1D2E] font-serif">
-          {isKhmer ? 'នាយកដ្ឋានព្យាបាលទាំងអស់' : 'Medical Departments'}
+          {isKhmer ? 'ផ្នែកព្យាបាលទាំងអស់' : 'Medical Departments'}
         </h1>
         <p className="text-sm text-slate-600">
           {isKhmer
-            ? 'មន្ទីរពេទ្យ ហ្លួងម៉ែ មាននាយកដ្ឋានឯកទេសជាច្រើន ប្រកបដោយសម្ភារៈទំនើប និងគ្រូពេទ្យជំនាញ។'
+            ? 'មន្ទីរពេទ្យ ហ្លួងម៉ែ មានផ្នែកព្យាបាលឯកទេសជាច្រើន ប្រកបដោយសម្ភារៈទំនើប និងគ្រូពេទ្យជំនាញ។'
             : 'Comprehensive clinical specialties equipped with modern diagnostic & treatment technology.'}
         </p>
       </div>
@@ -114,7 +114,7 @@ export const DepartmentsPage: React.FC = () => {
         <Search
           value={searchTerm}
           onChange={setSearchTerm}
-          placeholder={isKhmer ? 'ស្វែងរកនាយកដ្ឋាន...' : 'Search department by name or service...'}
+          placeholder={isKhmer ? 'ស្វែងរកផ្នែកព្យាបាល...' : 'Search department by name or service...'}
         />
       </div>
 
@@ -123,7 +123,7 @@ export const DepartmentsPage: React.FC = () => {
         <CardSkeleton count={6} />
       ) : isError || !data || departmentsToRender.length === 0 ? (
         <EmptyState
-          title={isKhmer ? 'មិនរកឃើញនាយកដ្ឋាន' : 'No departments found'}
+          title={isKhmer ? 'មិនរកឃើញផ្នែកព្យាបាល' : 'No departments found'}
           description={isKhmer ? 'សូមសាកល្បងស្វែងរកពាក្យគន្លឹះផ្សេងទៀត' : 'Try searching with a different term.'}
         />
       ) : (
