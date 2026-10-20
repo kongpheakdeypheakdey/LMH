@@ -32,7 +32,7 @@ Create a dedicated service account and application directories:
 
 ```bash
 sudo adduser --system --group --no-create-home luangme-hospital
-sudo git clone https://github.com/kongpheakdeypheakdey/HOSPITAL.git /opt/luangme-hospital
+sudo git clone https://github.com/kongpheakdeypheakdey/LMH.git /opt/luangme-hospital
 sudo install -d -o luangme-hospital -g luangme-hospital /opt/luangme-hospital/uploads
 ```
 
