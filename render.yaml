@@ -14,7 +14,8 @@ services:
     preDeployCommand: >-
       cd backend &&
       npx prisma db push --schema=../prisma/schema.prisma &&
-      node dist/scripts/ensureInitialAdmin.js
+      node dist/scripts/ensureInitialAdmin.js &&
+      node dist/scripts/seedCatalog.js
     startCommand: npm --prefix backend start
     healthCheckPath: /health
     disk:

@@ -95,8 +95,13 @@ sudo systemd-run --wait --pipe --unit=luangme-initial-setup \
   --property=User=luangme-hospital \
   --property=WorkingDirectory=/opt/luangme-hospital/backend \
   --property=EnvironmentFile=/etc/luangme-hospital/production.env \
-  /bin/bash -c './node_modules/.bin/prisma db push --schema=../prisma/schema.prisma && /usr/bin/node dist/scripts/ensureInitialAdmin.js'
+  /bin/bash -c './node_modules/.bin/prisma db push --schema=../prisma/schema.prisma && /usr/bin/node dist/scripts/ensureInitialAdmin.js && /usr/bin/node dist/scripts/seedCatalog.js'
 ```
+
+`seedCatalog.js` populates the public website content (departments, doctors,
+partnerships, news). It is non-destructive and idempotent: it only inserts
+each kind of record when its table is empty, and never touches users,
+appointments, or contact inquiries, so it is safe to run on every release.
 
 After the administrator is created, remove the three `INITIAL_ADMIN_*` lines
 from the environment file with `sudoedit`. Keep the admin password in a
@@ -183,6 +188,18 @@ sudo systemd-run --wait --pipe --unit=luangme-schema-update \
   --property=EnvironmentFile=/etc/luangme-hospital/production.env \
   /opt/luangme-hospital/backend/node_modules/.bin/prisma db push \
   --schema=../prisma/schema.prisma
+```
+
+Ensure the public catalog content exists (safe to run every release; it only
+inserts departments, doctors, partnerships, and news when those tables are
+empty and leaves all other data untouched):
+
+```bash
+sudo systemd-run --wait --pipe --unit=luangme-seed-catalog \
+  --property=User=luangme-hospital \
+  --property=WorkingDirectory=/opt/luangme-hospital/backend \
+  --property=EnvironmentFile=/etc/luangme-hospital/production.env \
+  /usr/bin/node dist/scripts/seedCatalog.js
 ```
 
 Restart and check the service after every release:
