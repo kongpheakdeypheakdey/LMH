@@ -1,10 +1,8 @@
 import React, { useMemo, useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { api } from '../api/axios';
 import { Department } from '../types';
+import { departments } from '../data/catalog';
 import { useLanguage } from '../contexts/LanguageContext';
 import { Search } from '../components/Search';
-import { CardSkeleton } from '../components/Loading';
 import { EmptyState } from '../components/EmptyState';
 import { UserCheck, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -57,18 +55,10 @@ export const DepartmentsPage: React.FC = () => {
   const { isKhmer } = useLanguage();
   const [searchTerm, setSearchTerm] = useState('');
 
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ['departments', searchTerm],
-    queryFn: async () => {
-      const res = await api.get('/departments', { params: { search: searchTerm } });
-      return Array.isArray(res.data?.data) ? (res.data.data as Department[]) : [];
-    },
-  });
-
   const departmentsToRender = useMemo(() => {
     const normalizedQuery = searchTerm.trim().toLowerCase();
 
-    return [...(data ?? [])]
+    return [...departments]
       .sort((a, b) => {
         const getPriority = (dept: Department) => {
           const label = `${dept.name ?? ''} ${dept.nameKm ?? ''}`.toLowerCase();
@@ -93,7 +83,7 @@ export const DepartmentsPage: React.FC = () => {
 
         return searchableText.includes(normalizedQuery);
       });
-  }, [data, searchTerm]);
+  }, [searchTerm]);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-10">
@@ -119,9 +109,7 @@ export const DepartmentsPage: React.FC = () => {
       </div>
 
       {/* Content */}
-      {isLoading ? (
-        <CardSkeleton count={6} />
-      ) : isError || !data || departmentsToRender.length === 0 ? (
+      {departmentsToRender.length === 0 ? (
         <EmptyState
           title={isKhmer ? 'មិនរកឃើញផ្នែកព្យាបាល' : 'No departments found'}
           description={isKhmer ? 'សូមសាកល្បងស្វែងរកពាក្យគន្លឹះផ្សេងទៀត' : 'Try searching with a different term.'}

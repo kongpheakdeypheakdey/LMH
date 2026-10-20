@@ -1,194 +1,86 @@
-# Luang Mè Hospital — Full-Stack Web Application
+# Luang Mè Hospital — Public Website
 
-A complete, production-ready full-stack hospital management and public website application built for **Luang Mè Hospital**, matching the Figma design at [https://flip-stunt-74340392.figma.site](https://flip-stunt-74340392.figma.site).
+A static public website for **Luang Mè Hospital**, built with React + Vite + TypeScript + Tailwind CSS. It matches the Figma design at [https://flip-stunt-74340392.figma.site](https://flip-stunt-74340392.figma.site).
 
----
-
-## 01 — Architecture Overview
-
-```text
-              FIGMA VISUAL SOURCE OF TRUTH
-                           │
-                           ▼
-                  ┌─────────────────┐
-                  │ React + Vite    │
-                  │ TypeScript      │
-                  │ Tailwind CSS    │
-                  └────────┬────────┘
-                           │
-                           │ REST API
-                           ▼
-                  ┌─────────────────┐
-                  │ Express.js      │
-                  │ TypeScript      │
-                  │ Auth & Security │
-                  └────────┬────────┘
-                           │
-                           │ Prisma ORM
-                           ▼
-                  ┌─────────────────┐
-                  │ SQLite          │
-                  │ dev.db          │
-                  └─────────────────┘
-```
+> **Architecture note:** This project was previously full-stack (Express + Prisma + SQLite). The backend has been removed and the site is now **fully static** — all content is served from the frontend with no API or database. Department, doctor, and partnership data live in [`frontend/src/data/catalog.ts`](frontend/src/data/catalog.ts). Edit that file to update those pages.
 
 ---
 
-## 02 — Technology Stack
+## Technology Stack
 
-### Frontend
-- **React 18**
-- **TypeScript**
-- **Vite**
+- **React 18** + **TypeScript**
+- **Vite** (build/dev)
 - **Tailwind CSS**
 - **React Router v6**
-- **TanStack Query (React Query v5)**
-- **React Hook Form + Zod**
-- **Axios**
-- **Lucide React**
-
-### Backend
-- **Node.js**
-- **Express.js**
-- **TypeScript**
-- **Bcrypt.js** (Password hashing)
-- **JSON Web Token (JWT)** & **Cookie-Parser** (HTTP-only Session Security)
-- **Express Rate Limit**
-
-### Database
-- **SQLite** (`prisma/dev.db`)
-- **Prisma ORM**
+- **Lucide React** (icons)
 
 ---
 
-## 03 — Development Access
-
-Development accounts are created by the seed script. Use unique credentials for local testing, and never reuse development credentials in production.
-
----
-
-## 04 — Project Structure
+## Project Structure
 
 ```text
 project/
-│
 ├── frontend/
 │   ├── src/
-│   │   ├── api/          # Axios instance with credentials
-│   │   ├── components/   # Reusable UI (Button, Input, Modal, Dialog, Toast, etc.)
-│   │   ├── contexts/     # AuthContext & LanguageContext (EN/KM)
+│   │   ├── components/   # Reusable UI
+│   │   ├── contexts/     # LanguageContext (EN/KM), AuthContext
+│   │   ├── data/         # catalog.ts — departments, doctors, partnerships
 │   │   ├── hooks/        # Custom hooks (useDebounce)
-│   │   ├── pages/        # Public pages & Admin Management System Dashboard
+│   │   ├── pages/        # Public pages
 │   │   ├── routes/       # App routing table
 │   │   ├── types/        # TypeScript models
 │   │   ├── App.tsx
 │   │   └── main.tsx
+│   ├── public/           # image/ and images/ assets, _redirects
 │   └── package.json
-│
-├── backend/
-│   ├── src/
-│   │   ├── config/       # Environment & server config
-│   │   ├── controllers/  # Auth, User, Doctor, Dept, Appt, Bed, Contact, Audit controllers
-│   │   ├── middleware/   # Auth, RateLimiter (SQLite logging), ErrorHandler
-│   │   ├── routes/       # Express API routes
-│   │   ├── utils/        # Prisma client & Audit logger
-│   │   ├── validators/   # Zod validation schemas
-│   │   ├── app.ts
-│   │   └── server.ts
-│   └── package.json
-│
-├── prisma/
-│   ├── schema.prisma     # SQLite Prisma models
-│   ├── seed.js           # Database seed script
-│   └── dev.db            # SQLite database file
-│
-├── uploads/              # Static file storage
-├── docs/                 # Documentation
-├── .env                  # Environment variables
-├── .env.example
-├── .gitignore
+├── docs/
+├── package.json          # thin wrapper → frontend scripts
 └── README.md
 ```
 
 ---
 
-## 05 — Getting Started & Development
+## Getting Started
 
-### 1. Database Setup & Seeding
-
-```bash
-# Push schema and apply SQLite migrations
-cd backend
-DATABASE_URL="file:../prisma/dev.db" npx prisma db push --schema=../prisma/schema.prisma
-
-# Seed initial hospital data
-DATABASE_URL="file:../prisma/dev.db" NODE_PATH=node_modules node ../prisma/seed.js
-```
-
-### 2. Start Backend API Server
+From the repository root:
 
 ```bash
-cd backend
-npm run dev
-# Server will start on http://localhost:4000
-```
-
-### 3. Start Frontend Development Client
-
-```bash
-cd frontend
-npm run dev
-# App will start on http://localhost:5173
+npm --prefix frontend install   # install once
+npm run dev                     # start Vite dev server (http://localhost:5173)
 ```
 
 ---
 
-## 06 — Database Backup Strategy
-
-Since SQLite is a file-based database, backups can be performed cleanly:
+## Production Build
 
 ```bash
-mkdir -p backups
-cp prisma/dev.db backups/dev-$(date +%Y-%m-%d-%H%M%S).db
+npm run build          # builds frontend/ → frontend/dist
+npm run preview        # preview the production build locally
 ```
+
+The output in `frontend/dist` is a static bundle. `frontend/public/_redirects`
+contains the SPA fallback (`/*  /index.html  200`) for client-side routing.
 
 ---
 
-## 07 — Production Build
+## Deploy (static hosting)
 
-```bash
-# Build Backend
-cd backend
-npm run build
+Deploy `frontend/dist` to any static host. For example, **Cloudflare Pages** or **Netlify**:
 
-# Build Frontend
-cd frontend
-npm run build
-```
+- **Build command:** `npm --prefix frontend install && npm --prefix frontend run build`
+- **Output directory:** `frontend/dist`
+
+The included `_redirects` file makes deep links (e.g. `/doctors`) resolve to the SPA on refresh.
 
 ---
 
-## 08 — Deploy on Render
+## Features
 
-The repository includes a Render Blueprint in `render.yaml` for a single service that builds and serves the frontend and API. It requires a paid persistent disk for SQLite.
+1. **Bilingual support (English & Khmer)** — header toggle (`EN` / `ខ្មែរ`).
+2. **Departments / Doctors / Partnerships** — served from the static catalog, with client-side search, filtering, and pagination.
+3. **News & informational pages**.
 
-1. In Render, create a new Blueprint and connect this GitHub repository.
-2. Set `INITIAL_ADMIN_EMAIL` and `INITIAL_ADMIN_PASSWORD` when prompted. Use a unique password of at least 16 characters; do not use development seed credentials.
-3. Render generates `JWT_SECRET` and `SESSION_SECRET` automatically. The app creates the initial administrator once and keeps SQLite data on its persistent disk.
-4. After deploy, sign in at `/login` with the administrator credentials and add departments, doctors, and partnerships. The demo seed script is not run in production.
-
-## 09 — Key Features Implemented
-
-1. **Bilingual Support (English & Khmer)**:
-   - Header language toggle (`EN` / `ខ្មែរ`).
-2. **24/7 Emergency Hotline & Real-time Bed Tracker**:
-   - Live bed occupancy updates from SQLite database.
-3. **Doctor & Specialty Directory**:
-   - Server-side debounced search, department filtering, and schedule availability.
-4. **Full Hospital Management System Dashboard (`/admin`)**:
-   - Real-time metric cards (Total Patients, Active Doctors, Bed Occupancy %, Unread Inquiries).
-   - Appointments CRUD (Status changes, Delete confirmation).
-   - Doctors CRUD (Add Doctor Modal, Edit Doctor, Delete Doctor).
-   - Ward Beds Manager (Toggle Available / Occupied).
-   - Inquiries Inbox (View message, Quick Reply modal).
-   - User Account Manager & Security Audit Trail.
+> **Removed with the backend:** the Admin dashboard (`/admin`), the Contact form
+> submission, and the live Emergency bed tracker depended on the API and are no
+> longer functional. See [`frontend/src/pages/`](frontend/src/pages/) if you
+> intend to convert or remove them.

@@ -1,15 +1,13 @@
-import React, { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { useSearchParams, Link } from 'react-router-dom';
-import { api } from '../api/axios';
-import { Doctor, Department } from '../types';
+import React, { useMemo, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { Doctor } from '../types';
+import { doctors as allDoctors, departments } from '../data/catalog';
 import { useLanguage } from '../contexts/LanguageContext';
 import { Search } from '../components/Search';
 import { Pagination } from '../components/Pagination';
-import { CardSkeleton } from '../components/Loading';
 import { EmptyState } from '../components/EmptyState';
 import { useDebounce } from '../hooks/useDebounce';
-import { Calendar, Phone, Mail, Clock, Globe } from 'lucide-react';
+import { Calendar, Clock, Globe } from 'lucide-react';
 
 const doctorImageList = [
   '/image/dr1.jpg',
@@ -42,41 +40,42 @@ export const DoctorsPage: React.FC = () => {
 
   const debouncedSearch = useDebounce(searchTerm, 300);
 
-  // Fetch departments for filter dropdown
-  const { data: departments } = useQuery({
-    queryKey: ['departments-list'],
-    queryFn: async () => {
-      const res = await api.get('/departments');
-      return res.data.data as Department[];
-    },
-  });
+  // Filter and paginate the static doctors list on the client.
+  const data = useMemo(() => {
+    const query = debouncedSearch.trim().toLowerCase();
 
-  // Fetch doctors list from API with search, filter, pagination
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ['doctors', debouncedSearch, selectedDept, page],
-    queryFn: async () => {
-      const res = await api.get('/doctors', {
-        params: {
-          search: debouncedSearch,
-          departmentId: selectedDept || undefined,
-          page,
-          limit: 12,
-        },
-      });
+    const filtered = allDoctors.filter((doc) => {
+      if (selectedDept && String(doc.departmentId ?? '') !== String(selectedDept)) {
+        return false;
+      }
+      if (!query) return true;
 
-      const doctors = Array.isArray(res.data?.data) ? (res.data.data as Doctor[]) : [];
+      const searchableText = [
+        doc.name,
+        doc.nameKm,
+        doc.specialty,
+        doc.specialtyKm,
+        doc.department?.name,
+        doc.department?.nameKm,
+      ]
+        .filter(Boolean)
+        .join(' ')
+        .toLowerCase();
 
-      return {
-        doctors,
-        pagination: res.data?.pagination || {
-          page,
-          limit: 12,
-          total: doctors.length,
-          totalPages: Math.max(1, Math.ceil(doctors.length / 12)),
-        },
-      };
-    },
-  });
+      return searchableText.includes(query);
+    });
+
+    const limit = 12;
+    const total = filtered.length;
+    const totalPages = Math.max(1, Math.ceil(total / limit));
+    const currentPage = Math.min(page, totalPages);
+    const start = (currentPage - 1) * limit;
+
+    return {
+      doctors: filtered.slice(start, start + limit),
+      pagination: { page: currentPage, limit, total, totalPages },
+    };
+  }, [debouncedSearch, selectedDept, page]);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-10">
@@ -123,9 +122,7 @@ export const DoctorsPage: React.FC = () => {
       </div>
 
       {/* Doctors Grid */}
-      {isLoading ? (
-        <CardSkeleton count={6} />
-      ) : isError || !data || data.doctors.length === 0 ? (
+      {data.doctors.length === 0 ? (
         <EmptyState
           title={isKhmer ? 'មិនរកឃើញវេជ្ជបណ្ឌិត' : 'No doctors found'}
           description={isKhmer ? 'សូមផ្លាស់ប្តូរពាក្យស្វែងរក ឬជ្រើសរើសផ្នែកផ្សេង' : 'Try adjusting your search criteria.'}

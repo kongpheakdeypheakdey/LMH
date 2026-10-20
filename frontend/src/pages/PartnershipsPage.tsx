@@ -1,9 +1,7 @@
 import React from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { api } from '../api/axios';
 import { Partnership } from '../types';
+import { partnerships } from '../data/catalog';
 import { useLanguage } from '../contexts/LanguageContext';
-import { CardSkeleton } from '../components/Loading';
 import { EmptyState } from '../components/EmptyState';
 import { Building2, Globe2, GraduationCap } from 'lucide-react';
 
@@ -41,17 +39,11 @@ const getCountryLabel = (country: string, isKhmer: boolean) => {
 export const PartnershipsPage: React.FC = () => {
   const { isKhmer } = useLanguage();
 
-  const { data, isLoading } = useQuery({
-    queryKey: ['partnerships'],
-    queryFn: async () => {
-      const res = await api.get('/partnerships');
-      return (res.data.data as Partnership[]) || [];
-    },
-  });
+  const data = partnerships;
 
-  const nationalPartners = (data ?? []).filter((part) => part.country === 'Cambodia');
+  const nationalPartners = data.filter((part) => part.country === 'Cambodia');
 
-  const internationalPartners = (data ?? []).filter((part) => part.country !== 'Cambodia');
+  const internationalPartners = data.filter((part) => part.country !== 'Cambodia');
 
   const renderCard = (part: Partnership) => (
     <div
@@ -103,9 +95,7 @@ export const PartnershipsPage: React.FC = () => {
         </p>
       </div>
 
-      {isLoading ? (
-        <CardSkeleton count={4} />
-      ) : !data || data.length === 0 ? (
+      {data.length === 0 ? (
         <EmptyState title={isKhmer ? 'មិនមានទិន្នន័យដៃគូ' : 'No partnerships listed'} />
       ) : (
         <div className="space-y-10">
