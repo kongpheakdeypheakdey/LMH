@@ -8,6 +8,7 @@ User=luangme-hospital
 Group=luangme-hospital
 WorkingDirectory=/opt/luangme-hospital
 EnvironmentFile=/etc/luangme-hospital/production.env
+Environment=HOST=127.0.0.1
 ExecStart=/usr/bin/node /opt/luangme-hospital/backend/dist/server.js
 Restart=on-failure
 RestartSec=5

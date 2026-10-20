@@ -319,7 +319,7 @@ async function main() {
       nameKm: 'លោកវេជ្ជ.ឯកទេស សាន គឹមស៊ាង',
       specialty: 'Deputy Head of Anatomical Pathology and Mortuary Unit',
       specialtyKm: 'នាយរងផ្នែក អ៊ុុយនីតេកាយវិភាគរោគវិទ្យា និងលោកា',
-      departmentId: createdDepartments.find((d) => d.code === 'LAB')?.id,
+      departmentId: createdDepartments.find((d) => d.code === 'ANATOMICAL_PATHOLOGY')?.id,
       status: 'active',
       image: '/image/pic12.png',
     },

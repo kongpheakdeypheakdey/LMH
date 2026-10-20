@@ -14,6 +14,7 @@ if (env === 'production' && (!jwtSecret || !sessionSecret)) {
 export const config = {
   env,
   port: parseInt(process.env.PORT || '4000', 10),
+  host: process.env.HOST,
   databaseUrl: process.env.DATABASE_URL || 'file:./dev.db',
   clientUrl: process.env.CLIENT_URL || 'http://localhost:5173',
   jwtSecret,

@@ -109,29 +109,56 @@ export const HomePage: React.FC = () => {
     <div className="space-y-16 pb-16">
       {/* Hero Banner */}
       <section className="relative overflow-hidden bg-slate-900">
-        <div className="relative h-[520px] md:h-[620px]">
+        <div className="relative aspect-[16/9] max-h-[80vh] w-full">
           <img
             src="/image/cover1.JPG"
             alt={isKhmer ? 'មន្ទីរពេទ្យហ្លួងម៉ែ' : 'Luang Mè Hospital'}
-            className="absolute inset-0 w-full h-full object-cover"
+            className="absolute inset-0 h-full w-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-slate-900/40 via-slate-700/15 to-sky-900/25" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(104, 183, 112, 0.2),transparent_55%)]" />
+          {/* Light, clean gradient — darkens only the lower-left for text legibility */}
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/75 via-slate-950/10 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-950/55 via-transparent to-transparent" />
 
-          <div className="relative z-10 flex h-full items-center justify-center px-4 sm:px-6 lg:px-8">
-            <div className="text-center max-w-4xl mx-auto text-white">
-              <h1 className="text-4xl sm:text-5xl md:text-7xl font-extrabold tracking-tight leading-none text-white drop-shadow-[0_8px_20px_rgba(0,0,0,0.25)]">
-                The National Cancer Hospital
+          <div className="relative z-10 mx-auto flex h-full max-w-7xl flex-col justify-end px-4 pb-12 sm:px-6 lg:px-8 lg:pb-16">
+            <div className="max-w-3xl">
+              {/* Eyebrow / accreditation label */}
+              <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 backdrop-blur-sm">
+                <ShieldAlert className="h-4 w-4 text-sky-300" />
+                <span className={`text-xs font-semibold uppercase tracking-wide text-sky-100 ${isKhmer ? 'font-khmer' : ''}`}>
+                  {isKhmer ? 'មន្ទីរពេទ្យសាធារណៈឯកទេសមហារីក' : "Cambodia's First Public Cancer Hospital"}
+                </span>
+              </div>
+
+              <h1
+                className={`mt-6 text-4xl font-extrabold text-white drop-shadow-[0_8px_20px_rgba(0,0,0,0.35)] sm:text-5xl md:text-6xl ${
+                  isKhmer ? 'font-khmer leading-snug' : 'tracking-tight leading-[1.05]'
+                }`}
+              >
+                {isKhmer ? 'មន្ទីរពេទ្យថ្នាក់ជាតិឯកទេសមហារីក' : 'The National Cancer Hospital'}
               </h1>
 
-              <div className="mt-7 flex justify-center">
+              <p className={`mt-5 max-w-xl text-base text-slate-200 sm:text-lg ${isKhmer ? 'font-khmer leading-relaxed' : ''}`}>
+                {isKhmer
+                  ? 'ផ្តល់ការព្យាបាលជំងឺមហារីកប្រកបដោយគុណភាព ដោយក្រុមវេជ្ជបណ្ឌិតឯកទេស និងបច្ចេកវិទ្យាវេជ្ជសាស្ត្រទំនើប។'
+                  : 'Delivering compassionate, world-class cancer care with specialist doctors and advanced medical technology.'}
+              </p>
+
+              {/* Call-to-action buttons */}
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
                 <Link
                   to="/doctors"
-                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#0F4C8A] px-6 py-3 text-sm font-bold text-white shadow-[0_18px_35px_rgba(15,76,138,0.32)] transition-all duration-200 hover:bg-[#0D3F75]"
+                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#0F4C8A] px-6 py-3.5 text-sm font-bold text-white shadow-[0_18px_35px_rgba(15,76,138,0.45)] transition-all duration-200 hover:bg-[#0D3F75] hover:shadow-[0_18px_40px_rgba(15,76,138,0.6)]"
                 >
                   {isKhmer ? 'ជួបគ្រូពេទ្យរបស់យើង' : 'Meet Our Doctors'}
-                  <ArrowRight className="w-4 h-4" />
+                  <ArrowRight className="h-4 w-4" />
                 </Link>
+                <a
+                  href="tel:010228965"
+                  className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/30 bg-white/10 px-6 py-3.5 text-sm font-bold text-white backdrop-blur-sm transition-all duration-200 hover:bg-white/20"
+                >
+                  <PhoneCall className="h-4 w-4" />
+                  {isKhmer ? 'ទូរស័ព្ទ ០១០ ២២៨ ៩៦៥' : 'Call 010 228 965'}
+                </a>
               </div>
             </div>
           </div>
@@ -202,7 +229,7 @@ export const HomePage: React.FC = () => {
             },
             {
               name: 'Assistant Professor TOUCH SOCHEAT',
-              khName: 'លោកសាស្ត្រ.ជំនួយ ថាយ ម៉េងគ្រី',
+              khName: 'លោកសាស្ត្រ.ជំនួយ ទូច សុជាតិ',
               role: isKhmer ? 'នាយករង' : 'Deputy Hospital Director',
               image: '/image/dr2.jpg',
             },
@@ -210,13 +237,13 @@ export const HomePage: React.FC = () => {
               name: 'Assistant Professor THAY MENGKRY',
               khName: 'លោកសាស្ត្រ.ជំនួយ ថាយ ម៉េងគ្រី',
               role: isKhmer ? 'នាយករង' : 'Deputy Hospital Director',
-              image: '/image/dr3.jpg',
+              image: '/image/dr4.jpg',
             },
             {
               name: 'Doctor Specialist CHHUN SOKHA',
               khName: 'លោកវេជ្ជ.ឯកទេស ឈុន សុខា',
               role: isKhmer ? 'នាយករង' : 'Deputy Hospital Director',
-              image: '/image/dr4.jpg',
+              image: '/image/dr3.jpg',
             },
             {
               name: 'Doctor Specialist SEAP BELL',
@@ -225,16 +252,18 @@ export const HomePage: React.FC = () => {
               image: '/image/dr5.jpg',
             },
             {
-              name: 'Mrs. MA LATY',
-              khName: 'លោកស្រី ម៉ា ឡាទី',
-              role: isKhmer ? 'ប្រធានការិយាល័យហិរញ្ញវត្ថុ' : 'Head of Finance Office',
-              image: '/image/dr6.jpg',
-            },
-            {
               name: 'Mr. UN CHANKOSOL',
               khName: 'លោក អ៊ុន ច័ន្ទកុសល្យ',
               role: isKhmer ? 'ប្រធានការិយាល័យរដ្ឋបាល និងធនធានមនុស្ស' : 'Head of Administration and Human Resources Office',
               image: '/image/dr7.jpg',
+
+             
+            },
+            {
+              name: 'Mrs. MA LATY',
+              khName: 'លោកស្រី ម៉ា ឡាទី',
+              role: isKhmer ? 'ប្រធានការិយាល័យហិរញ្ញវត្ថុ' : 'Head of Finance Office',
+              image: '/image/dr6.jpg',
             },
           ].map((director, index) => (
             <div

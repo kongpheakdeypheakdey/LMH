@@ -8,7 +8,6 @@ import { Search } from '../components/Search';
 import { Pagination } from '../components/Pagination';
 import { CardSkeleton } from '../components/Loading';
 import { EmptyState } from '../components/EmptyState';
-import { Badge } from '../components/Badge';
 import { useDebounce } from '../hooks/useDebounce';
 import { Calendar, Phone, Mail, Clock, Globe } from 'lucide-react';
 
@@ -133,61 +132,66 @@ export const DoctorsPage: React.FC = () => {
         />
       ) : (
         <div className="space-y-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {data.doctors.map((doc) => (
-              <div
-                key={doc.id}
-                className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm hover:shadow-md transition-all flex flex-col justify-between space-y-5 group"
-              >
-                <div className="space-y-4">
-                  <div className="flex items-start gap-4">
-                    <img
-                      src={getDoctorImage(doc)}
-                      alt={doc.name}
-                      className="w-20 h-20 rounded-2xl object-cover border-2 border-slate-100 group-hover:border-[#0F4C8A] transition-colors"
-                    />
-                    <div className="space-y-1">
-                      <Badge variant="success" className="text-[10px]">
-                        ✓ Available
-                      </Badge>
-                      <h3 className="text-base font-bold text-[#0B1D2E] group-hover:text-[#0F4C8A] transition-colors">
-                        {isKhmer && doc.nameKm ? doc.nameKm : doc.name}
-                      </h3>
-                      <p className="text-xs font-semibold text-[#0F4C8A]">
-                        {isKhmer && doc.specialtyKm ? doc.specialtyKm : doc.specialty}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {data.doctors.map((doc) => {
+              const hasDetails = doc.experience || doc.languages || doc.availability;
+              return (
+                <div
+                  key={doc.id}
+                  className="group flex flex-col overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-[#0F4C8A]/30 hover:shadow-xl hover:shadow-slate-200"
+                >
+                  {/* Department band */}
+                  {doc.department && (
+                    <div className="flex items-center gap-2.5 border-b border-slate-100 bg-slate-50/80 px-5 py-3.5">
+                      <span className="h-2 w-2 shrink-0 rounded-full bg-[#0F4C8A]" />
+                      <p className={`text-sm font-bold leading-snug text-[#0F4C8A] ${isKhmer ? 'font-khmer' : ''}`}>
+                        {isKhmer && doc.department.nameKm ? doc.department.nameKm : doc.department.name}
                       </p>
-                      {doc.department && (
-                        <p className="text-xs text-slate-500 font-medium">
-                          {isKhmer && doc.department.nameKm ? doc.department.nameKm : doc.department.name}
-                        </p>
-                      )}
                     </div>
-                  </div>
+                  )}
 
-                  <div className="space-y-2 text-xs text-slate-600 border-t border-slate-100 pt-3">
-                    {doc.experience && (
-                      <div className="flex items-center gap-2">
-                        <Clock className="w-3.5 h-3.5 text-slate-400" />
-                        <span>{isKhmer ? 'បទពិសោធន៍:' : 'Experience:'} {doc.experience}</span>
-                      </div>
-                    )}
-                    {doc.languages && (
-                      <div className="flex items-center gap-2">
-                        <Globe className="w-3.5 h-3.5 text-slate-400" />
-                        <span>{isKhmer ? 'ភាសា:' : 'Languages:'} {doc.languages}</span>
-                      </div>
-                    )}
-                    {doc.availability && (
-                      <div className="flex items-center gap-2 font-semibold text-emerald-700">
-                        <Calendar className="w-3.5 h-3.5 text-emerald-600" />
-                        <span>{isKhmer ? 'ថ្ងៃពិនិត្យ:' : 'Schedule:'} {doc.availability}</span>
+                  {/* Doctor body */}
+                  <div className="flex flex-1 flex-col items-center px-6 py-7 text-center">
+                    <div className="relative">
+                      <img
+                        src={getDoctorImage(doc)}
+                        alt={doc.name}
+                        className="aspect-[4/5] w-32 rounded-xl object-cover object-top shadow-sm ring-1 ring-slate-200 transition-all duration-300 group-hover:ring-[#0F4C8A]/30"
+                      />
+                    </div>
+                    <h3 className={`mt-5 text-lg font-bold text-[#0B1D2E] transition-colors group-hover:text-[#0F4C8A] ${isKhmer ? 'font-khmer' : ''}`}>
+                      {isKhmer && doc.nameKm ? doc.nameKm : doc.name}
+                    </h3>
+                    <p className={`mt-1.5 max-w-xs text-sm leading-relaxed text-slate-500 ${isKhmer ? 'font-khmer' : ''}`}>
+                      {isKhmer && doc.specialtyKm ? doc.specialtyKm : doc.specialty}
+                    </p>
+
+                    {hasDetails && (
+                      <div className="mt-5 w-full space-y-2 border-t border-slate-100 pt-4 text-left text-xs text-slate-600">
+                        {doc.experience && (
+                          <div className="flex items-center gap-2">
+                            <Clock className="h-3.5 w-3.5 shrink-0 text-slate-400" />
+                            <span>{isKhmer ? 'បទពិសោធន៍:' : 'Experience:'} {doc.experience}</span>
+                          </div>
+                        )}
+                        {doc.languages && (
+                          <div className="flex items-center gap-2">
+                            <Globe className="h-3.5 w-3.5 shrink-0 text-slate-400" />
+                            <span>{isKhmer ? 'ភាសា:' : 'Languages:'} {doc.languages}</span>
+                          </div>
+                        )}
+                        {doc.availability && (
+                          <div className="flex items-center gap-2 font-semibold text-emerald-700">
+                            <Calendar className="h-3.5 w-3.5 shrink-0 text-emerald-600" />
+                            <span>{isKhmer ? 'ថ្ងៃពិនិត្យ:' : 'Schedule:'} {doc.availability}</span>
+                          </div>
+                        )}
                       </div>
                     )}
                   </div>
                 </div>
-
-              </div>
-            ))}
+              );
+            })}
           </div>
 
           {/* Pagination */}

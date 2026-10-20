@@ -30,10 +30,16 @@ export const Header: React.FC = () => {
           <div className="flex h-12 w-12 items-center justify-center overflow-hidden bg-white">
             <HospitalLogo className="h-full w-full object-contain" />
           </div>
-          <div className="leading-none text-slate-800">
-            <div className="text-lg sm:text-2xl font-extrabold tracking-tight uppercase whitespace-nowrap font-sans">
-              LUANG MÈ HOSPITAL
-            </div>
+          <div className="leading-tight text-slate-800">
+            {isKhmer ? (
+              <div className="text-lg sm:text-2xl font-bold leading-normal whitespace-nowrap font-khmer">
+                មន្ទីរពេទ្យ ហ្លួងម៉ែ
+              </div>
+            ) : (
+              <div className="text-lg sm:text-2xl font-extrabold tracking-tight uppercase whitespace-nowrap font-sans">
+                LUANG MÈ HOSPITAL
+              </div>
+            )}
           </div>
         </Link>
 

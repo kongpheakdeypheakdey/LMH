@@ -18,8 +18,8 @@ export const Footer: React.FC = () => {
                 <HospitalLogo className="w-full h-full object-contain" />
               </div>
               <div>
-                <div className="text-xs font-semibold text-emerald-400 uppercase font-khmer">
-                  {isKhmer ? 'មន្ទីរពេទ្យ' : 'NATIONAL HOSPITAL'}
+                <div className="text-xs font-semibold text-emerald-400 font-khmer">
+                  មន្ទីរពេទ្យ ហ្លួងម៉ែ
                 </div>
                 <div className="text-base font-extrabold tracking-tight text-white font-serif">
                   LUANG MÈ HOSPITAL
@@ -50,7 +50,7 @@ export const Footer: React.FC = () => {
               </li>
               <li>
                 <Link to="/departments" className="hover:text-white transition-colors">
-                  {isKhmer ? 'នាយកដ្ឋានព្យាបាល' : 'Medical Departments'}
+                  {isKhmer ? 'ផ្នែកព្យាបាល' : 'Medical Departments'}
                 </Link>
               </li>
               <li>
@@ -76,7 +76,7 @@ export const Footer: React.FC = () => {
             <div className="space-y-3 text-sm text-white/70">
               <div className="p-3.5 bg-red-950/40 rounded-xl border border-red-900/50 space-y-1">
                 <div className="text-xs font-bold text-red-400 uppercase tracking-wide">
-                  {isKhmer ? 'ខ្សែទូរស័ព្ទបន្ទាន់ ២៤/៧' : '24/7 Emergency Lines'}
+                  {isKhmer ? 'លេខទំនាក់ទំនងសេវាកម្ម' : 'Call Center'}
                 </div>
                 <div className="text-base font-bold text-white">010-228-965</div>
               </div>
@@ -107,10 +107,10 @@ export const Footer: React.FC = () => {
 
         {/* Bottom Copyright */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-white/50">
-          <p>© 2025 Luang Mè Hospital. All rights reserved.</p>
+          <p>Luang Mè Hospital.</p>
           <div className="flex items-center gap-6">
             <Link to="/emergency" className="hover:text-white transition-colors">
-              {isKhmer ? 'សង្គ្រោះបន្ទាន់' : 'Emergency'}
+              
             </Link>
           </div>
         </div>

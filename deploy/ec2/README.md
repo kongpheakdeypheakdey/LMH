@@ -23,7 +23,7 @@ that path).
 
 ```bash
 sudo apt update
-sudo apt install -y nginx git
+sudo apt install -y nginx git sqlite3
 ```
 
 ## 3. Install and build the application
@@ -31,23 +31,23 @@ sudo apt install -y nginx git
 Create a dedicated service account and application directories:
 
 ```bash
-sudo adduser --system --group --home /opt/luangme-hospital luangme-hospital
-sudo install -d -o luangme-hospital -g luangme-hospital /opt/luangme-hospital
+sudo adduser --system --group --no-create-home luangme-hospital
+sudo git clone https://github.com/kongpheakdeypheakdey/HOSPITAL.git /opt/luangme-hospital
 sudo install -d -o luangme-hospital -g luangme-hospital /opt/luangme-hospital/uploads
 ```
 
-Clone the repository into `/opt/luangme-hospital` (or copy a release there),
-then build both packages:
+Build both packages:
 
 ```bash
 cd /opt/luangme-hospital
-npm ci --prefix backend
-npm ci --prefix frontend
+sudo npm ci --prefix backend
+sudo npm ci --prefix frontend
 cd backend
-DATABASE_URL=file:/var/lib/luangme-hospital/luangme-hospital.db ./node_modules/.bin/prisma generate --schema=../prisma/schema.prisma
-npm run build
+sudo env DATABASE_URL=file:/var/lib/luangme-hospital/luangme-hospital.db \
+  ./node_modules/.bin/prisma generate --schema=../prisma/schema.prisma
+sudo npm run build
 cd ..
-npm --prefix frontend run build
+sudo npm --prefix frontend run build
 sudo chown -R root:luangme-hospital /opt/luangme-hospital
 sudo chown -R luangme-hospital:luangme-hospital /opt/luangme-hospital/uploads
 sudo install -d -o luangme-hospital -g luangme-hospital /var/lib/luangme-hospital
@@ -107,6 +107,13 @@ change. Review the change and run `prisma db push` with the production
 `DATABASE_URL` before restarting the service. Do not use `prisma migrate dev`
 in production.
 
+To make a consistent SQLite backup before a schema change, run:
+
+```bash
+sudo -u luangme-hospital sqlite3 /var/lib/luangme-hospital/luangme-hospital.db \
+  ".backup '/var/lib/luangme-hospital/backup-$(date +%F-%H%M%S).db'"
+```
+
 ## 5. Configure systemd and Nginx
 
 Install and enable the application service:
@@ -147,3 +154,41 @@ sudo journalctl -u luangme-hospital -n 100 --no-pager
 Keep regular, tested backups of `/var/lib/luangme-hospital/` and
 `/opt/luangme-hospital/uploads/`. Use encrypted EBS snapshots or another
 approved backup target; the database and uploads contain hospital data.
+
+## 7. Deploy a later release
+
+Run updates as an administrator. The app files are root-owned so the service
+account can read but cannot modify its own code.
+
+```bash
+sudo systemctl stop luangme-hospital
+sudo git -C /opt/luangme-hospital pull --ff-only
+sudo npm ci --prefix /opt/luangme-hospital/backend
+sudo npm ci --prefix /opt/luangme-hospital/frontend
+sudo env DATABASE_URL=file:/var/lib/luangme-hospital/luangme-hospital.db \
+  /opt/luangme-hospital/backend/node_modules/.bin/prisma generate \
+  --schema=/opt/luangme-hospital/prisma/schema.prisma
+sudo npm run build --prefix /opt/luangme-hospital/backend
+sudo npm --prefix /opt/luangme-hospital/frontend run build
+```
+
+If the release changes `prisma/schema.prisma`, take and verify a database
+backup first, then apply the reviewed schema change with `prisma db push`
+using the production `DATABASE_URL` as the service account:
+
+```bash
+sudo systemd-run --wait --pipe --unit=luangme-schema-update \
+  --property=User=luangme-hospital \
+  --property=WorkingDirectory=/opt/luangme-hospital/backend \
+  --property=EnvironmentFile=/etc/luangme-hospital/production.env \
+  /opt/luangme-hospital/backend/node_modules/.bin/prisma db push \
+  --schema=../prisma/schema.prisma
+```
+
+Restart and check the service after every release:
+
+```bash
+sudo systemctl restart luangme-hospital
+sudo systemctl --no-pager --full status luangme-hospital
+curl --fail https://luangme-hospital.com
+```

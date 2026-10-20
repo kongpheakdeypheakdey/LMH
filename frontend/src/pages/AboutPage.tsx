@@ -42,7 +42,7 @@ export const AboutPage: React.FC = () => {
       year: isKhmer ? 'ទំហំ និងហេដ្ឋារចនាសម្ព័ន្ធ' : 'Facility scale',
       title: isKhmer ? 'មន្ទីរពេទ្យលើផ្ទៃដី ១,៤ ហិកតា' : '1.4-hectare hospital campus',
       description: isKhmer
-        ? 'ស្ថិតលើផ្ទៃដីទំហំ ១,៤ ហិកតា មានកម្ពស់ ៥ ជាន់ (រួមទាំងជាន់ក្រោមដី ១ ជាន់សម្រាប់ចំណតរថយន្ត) និងមានសមត្ថភាពផ្ទុកគ្រែសម្រាកព្យាបាល (IPD) ចំនួន ២០០ គ្រែ។'
+        ? 'ស្ថិតលើផ្ទៃដីទំហំ ២,១២ ហិកតា មានកម្ពស់ ៥ ជាន់ (រួមទាំងជាន់ក្រោមដី ១ ជាន់សម្រាប់ចំណតរថយន្ត) និងមានសមត្ថភាពផ្ទុកគ្រែសម្រាកព្យាបាល (IPD) ចំនួន ២០០ គ្រែ។'
         : 'Situated on 1.4 hectares of land across 5 floors, including 1 basement for parking, with a planned capacity of 200 inpatient beds.',
     },
   ];
