@@ -105,7 +105,7 @@ export const NewsArticlePage: React.FC = () => {
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 gap-8 xl:grid-cols-[minmax(0,2.2fr)_minmax(300px,0.8fr)]">
+        <div className="grid grid-cols-1 gap-8">
           <article className="khmer-news-article overflow-hidden rounded-[30px] glass">
             <div className="relative h-[260px] md:h-[420px] overflow-hidden">
               <img src={article.image} alt={headline} className="h-full w-full object-cover" />
@@ -200,25 +200,6 @@ export const NewsArticlePage: React.FC = () => {
             </div>
           </article>
 
-          <aside className="space-y-6">
-            <div className="rounded-[28px] bg-[#0B1D2E] p-5 text-white shadow-[0_18px_55px_rgba(15,25,42,0.12)]">
-              <h3 className="khmer-news-title text-4xl font-extrabold leading-tight text-white">
-                {isKhmer ? 'សេវាព័ត៌មាន' : 'Health Updates'}
-              </h3>
-              <p className="mt-3 text-sm leading-7 text-slate-300">
-                {isKhmer
-                  ? 'ស្វែងរកព័ត៌មានថ្មីៗ ព្រឹត្តិការណ៍ និងការផ្តល់ព័ត៌មានសុខភាពពីមន្ទីរពេទ្យរបស់យើង។'
-                  : 'Stay connected with the latest health news, hospital events, and preventive care updates from our care team.'}
-              </p>
-              <div className="mt-5 flex flex-wrap gap-2">
-                {['Cancer care', 'Wellness', 'Check-up', 'Community'].map((tag) => (
-                  <span key={tag} className="rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-xs font-medium text-slate-200">
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </aside>
         </div>
       </div>
     </>

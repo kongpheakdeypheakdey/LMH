@@ -57,7 +57,7 @@ export const HomePage: React.FC = () => {
       color: 'bg-[#FFF1F1] text-[#B42318] border-[#FECACA]',
     },
     {
-      title: isKhmer ? 'ផ្នែករូបភាពវេជ្ជសាស្ត្រ និងអន្តរាគមន៍វិទ្យុសាស្រ្ត' : 'Medical Imaging & Radiology',
+      title: isKhmer ? 'ផ្នែករូបភាពវេជ្ជសាស្ត្រ និងអន្តរាគមន៍វិទ្យុសាស្រ្ត' : 'Medical Imaging and Interventional Radiology',
       desc: isKhmer
         ? 'ប្រើប្រាស់បច្ចេកវិទ្យារូបភាពទំនើបៗ (ដូចជា អ៊ិចរ៉េ អេកូ ស្កេន CT និង MRI) ដើម្បីធ្វើរោគវិនិច្ឆ័យ និងតាមដានស្ថានភាពជំងឺបានច្បាស់លាស់។'
         : 'Uses advanced imaging technologies (X-ray, CT scan, MRI, ultrasound) to accurately diagnose and monitor medical conditions.',

@@ -39,7 +39,7 @@ export const departments: Department[] = [
   },
   {
     id: 3,
-    name: 'Medical Imaging & Radiology',
+    name: 'Medical Imaging and Interventional Radiology',
     nameKm: 'ផ្នែករូបភាពវេជ្ជសាស្ត្រ និងអន្តរាគមន៍វិទ្យុសាស្រ្ត',
     code: 'RADIOLOGY',
     head: 'Dr. Kong Reasmey',
