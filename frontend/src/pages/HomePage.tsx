@@ -254,7 +254,7 @@ export const HomePage: React.FC = () => {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         <div className="text-center space-y-2 max-w-2xl mx-auto">
           <h2 className="text-2xl sm:text-3xl font-bold text-[#0B1D2E] font-serif">
-            {isKhmer ? 'ថ្នាក់ដឹកនាំនៃមន្ទីរពេទ្យ ហ្លួង ម៉ែ' : 'Our Directors of Luang Mè Hospital'}
+            {isKhmer ? 'ថ្នាក់ដឹកនាំនៃមន្ទីរពេទ្យ ហ្លួង ម៉ែ' : 'Our Leadership Board'}
           </h2>
           <p className="text-sm text-slate-600">
             {isKhmer
@@ -284,13 +284,13 @@ export const HomePage: React.FC = () => {
               image: '/image/dr4.jpg',
             },
             {
-              name: 'Doctor Specialist CHHUN SOKHA',
+              name: 'Dr Specialist CHHUN SOKHA',
               khName: 'លោកវេជ្ជ.ឯកទេស ឈុន សុខា',
               role: isKhmer ? 'នាយករង' : 'Deputy Hospital Director',
               image: '/image/dr3.jpg',
             },
             {
-              name: 'Doctor Specialist SEAP BELL',
+              name: 'Dr Specialist SEAP BELL',
               khName: 'លោកវេជ្ជ.ឯកទេស សៀប បែល',
               role: isKhmer ? 'ប្រធានការិយាល័យបច្ចេកទេស' : 'Chief of Technical Office ',
               image: '/image/dr5.jpg',
@@ -298,7 +298,7 @@ export const HomePage: React.FC = () => {
             {
               name: 'Mr. UN CHANKOSOL',
               khName: 'លោក អ៊ុន ច័ន្ទកុសល្យ',
-              role: isKhmer ? 'ប្រធានការិយាល័យរដ្ឋបាល និងធនធានមនុស្ស' : 'Head of Administration and Human Resources Office',
+              role: isKhmer ? 'ប្រធានការិយាល័យរដ្ឋបាល និងធនធានមនុស្ស' : 'Chief of Administration and Human Resources Office',
               image: '/image/dr7.jpg',
 
              
@@ -306,7 +306,7 @@ export const HomePage: React.FC = () => {
             {
               name: 'Mrs. MA LATY',
               khName: 'លោកស្រី ម៉ា ឡាទី',
-              role: isKhmer ? 'ប្រធានការិយាល័យហិរញ្ញវត្ថុ' : 'Head of Finance Office',
+              role: isKhmer ? 'ប្រធានការិយាល័យហិរញ្ញវត្ថុ' : 'Chief of Finance Office',
               image: '/image/dr6.jpg',
             },
           ].map((director, index) => (
